@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-// Import the client data (adjust the relative path if needed)
 import { client } from '../clientData'; 
 
 function Home() {
@@ -22,24 +21,55 @@ function Home() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section style={{ padding: '120px 48px', maxWidth: '800px' }}>
-        <p style={{ color: client.colors.accent, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '24px' }}>
-          {client.tagline}
-        </p>
-        <h1 style={{ fontSize: '4rem', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-2px', marginBottom: '24px' }}>
-          {client.slogan}
-        </h1>
-        <p style={{ color: client.colors.muted, fontSize: '1.1rem', lineHeight: 1.7, maxWidth: '520px', marginBottom: '40px' }}>
-          {client.description}
-        </p>
-        <div style={{ display: 'flex', gap: '16px' }}>
-          <Link to="/contact" style={{ background: client.colors.accent, color: client.colors.bg, padding: '14px 28px', borderRadius: '6px', textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem' }}>
-            Book Appointment
-          </Link>
-          <a href="#services" style={{ border: `1px solid ${client.colors.border}`, color: client.colors.text, padding: '14px 28px', borderRadius: '6px', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
-            View Pricing
-          </a>
+      {/* Hero Section with Side Image Layout */}
+      <section style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+        gap: '48px',
+        padding: '100px 48px', 
+        alignItems: 'center',
+        maxWidth: '1300px',
+        margin: '0 auto'
+      }}>
+        <div>
+          <p style={{ color: client.colors.accent, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '24px' }}>
+            {client.tagline}
+          </p>
+          <h1 style={{ fontSize: '3.8rem', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-2px', marginBottom: '24px' }}>
+            {client.slogan}
+          </h1>
+          <p style={{ color: client.colors.muted, fontSize: '1.1rem', lineHeight: 1.7, maxWidth: '520px', marginBottom: '40px' }}>
+            {client.description}
+          </p>
+          <div style={{ display: 'flex', gap: '16px' }}>
+            <Link to="/contact" style={{ background: client.colors.accent, color: client.colors.bg, padding: '14px 28px', borderRadius: '6px', textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem' }}>
+              Book Appointment
+            </Link>
+            <a href="#services" style={{ border: `1px solid ${client.colors.border}`, color: client.colors.text, padding: '14px 28px', borderRadius: '6px', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
+              View Pricing
+            </a>
+          </div>
+        </div>
+
+        {/* Dynamic Cool Hero Image Frame */}
+        <div style={{ 
+          position: 'relative', 
+          height: '450px', 
+          borderRadius: '20px', 
+          overflow: 'hidden',
+          border: `1px solid ${client.colors.border}`,
+          boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+        }}>
+          <img 
+            src={client.images.hero} 
+            alt="Premium Detailing" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <div style={{ 
+            position: 'absolute', 
+            inset: 0, 
+            background: 'linear-gradient(to bottom, transparent 60%, rgba(13,17,23,0.9))' 
+          }} />
         </div>
       </section>
 
@@ -63,7 +93,6 @@ function Home() {
                 justifyContent: 'space-between'
               }}
             >
-              {/* Popular Tag */}
               {service.popular && (
                 <span style={{ position: 'absolute', top: '-12px', right: '20px', background: client.colors.accent, color: client.colors.bg, fontSize: '0.75rem', fontWeight: 700, padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase' }}>
                   Popular Choice
@@ -73,7 +102,7 @@ function Home() {
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
                   <h3 style={{ fontWeight: 700, fontSize: '1.2rem', marginRight: '8px' }}>{service.name}</h3>
-                  <span style={{ color: client.colors.accent, fontWeight: 700, fontSize: '1.4rem', whiteSpace: 'nowrap' }}>{service.price}</span>
+                  <span style={{ color: client.colors.accent, fontWeight: 700, fontSize: '1.4rem' }}>{service.price}</span>
                 </div>
                 <p style={{ color: client.colors.muted, fontSize: '0.8rem', marginBottom: '20px', fontWeight: 500 }}>⏱ Duration: {service.duration}</p>
                 <p style={{ color: client.colors.muted, fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '24px' }}>{service.desc}</p>
@@ -98,7 +127,7 @@ function Home() {
         </div>
       </section>
 
-      {/* About */}
+      {/* About Section */}
       <section id="about" style={{ padding: '100px 48px', borderTop: `1px solid ${client.colors.border}`, maxWidth: '680px' }}>
         <p style={{ color: client.colors.accent, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Our Location & Hours</p>
         <h2 style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-1px', marginBottom: '24px' }}>We bring the shop to your driveway.</h2>
