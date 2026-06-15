@@ -87,7 +87,7 @@ export const client = {
 
   // --- Stats ---
   stats: [
-    { value: "5.0★", label: "Yelp Rating" },
+    { value: "4.9★", label: "Yelp Rating" },
     { value: "200+", label: "Cars Detailed" },
     { value: "100%", label: "Mobile Service" },
     { value: "3 yrs", label: "In Business" },
