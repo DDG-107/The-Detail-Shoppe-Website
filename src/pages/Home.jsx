@@ -1,16 +1,15 @@
 import { Link } from 'react-router-dom';
 import { client } from '../clientData'; 
 import BorderGlow from '../components/BorderGlow'; 
+import { useScrollReveal } from '../components/useScrollReveal'; // Verify this path matches your folder structure!
 
 function Home() {
-  return (
-    <div style={{ 
-      fontFamily: 'Inter, sans-serif', 
-      background: client.colors.bg, 
-      color: client.colors.text, 
-      minHeight: '100vh' 
-    }}>
+  const servicesRef = useScrollReveal();
+  const aboutRef = useScrollReveal();
 
+  return (
+    <div style={{ background: client.colors.bg, color: client.colors.text, minHeight: '100vh' }}> 
+      
       {/* Nav */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 48px', borderBottom: `1px solid ${client.colors.border}` }}>
         <span style={{ fontWeight: 700, fontSize: '1.2rem', letterSpacing: '-0.5px' }}>{client.name}</span>
@@ -74,27 +73,32 @@ function Home() {
         </div>
       </section>
 
-      {/* Services & Pricing Section with BorderGlow */}
-      <section id="services" style={{ padding: '100px 48px', borderTop: `1px solid ${client.colors.border}` }}>
-        <p style={{ color: client.colors.accent, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Menu & Rates</p>
-        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-1px', marginBottom: '64px' }}>Our Services & Pricing</h2>
-        
+      {/* Services & Pricing */}
+      <section
+        id="services"
+        ref={servicesRef}
+        className="reveal-hidden"
+        style={{ padding: '100px 48px', borderTop: `1px solid ${client.colors.border}` }} 
+      >
+        <p style={{ color: client.colors.accent, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Our Services & Pricing</p>
+        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-1px', marginBottom: '24px' }}>Expert Detailing, Transparent Pricing.</h2>
+
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
           {client.services.map((service) => (
-        <BorderGlow
-           key={service.name}
-           // Turn off the intro animation sweep by forcing it to false, or only leave it on for popular
-            animated={false} 
-            backgroundColor={client.colors.surface}
-           borderRadius={5}
-           glowRadius={15}               /* Reduced size so it doesn't bleed out too far */
-           glowIntensity={1}           /* Dropped intensity for a stealthier look */
-           coneSpread={20}               /* Tightened the light beam cone angle */
-            edgeSensitivity={0.1}          /* Lower numbers mean it only lights up when directly hovering */
-            fillOpacity={0.4}             /* Dimmed the backplate glow */
-          glowColor="45 20 50"          /* Adjusted dark gold/bronze HSL anchor */
-          colors={[client.colors.accent, client.colors.border]}
->              <div style={{ 
+            <BorderGlow
+              key={service.name}
+              animated={false} 
+              backgroundColor={client.colors.surface}
+              borderRadius={5}
+              glowRadius={15}
+              glowIntensity={1}
+              coneSpread={20}
+              edgeSensitivity={0.1}
+              fillOpacity={0.4}
+              glowColor="45 20 50"
+              colors={[client.colors.accent, client.colors.border]}
+            >
+              <div style={{ 
                 padding: '32px', 
                 position: 'relative',
                 display: 'flex',
@@ -102,7 +106,6 @@ function Home() {
                 justifyContent: 'space-between',
                 height: '100%'
               }}>
-                
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
                     <h3 style={{ fontWeight: 700, fontSize: '1.2rem', marginRight: '8px' }}>{service.name}</h3>
@@ -133,10 +136,15 @@ function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" style={{ padding: '100px 48px', borderTop: `1px solid ${client.colors.border}`, maxWidth: '680px' }}>
+      <section
+        id="about"
+        ref={aboutRef}
+        className="reveal-hidden"
+        style={{ padding: '100px 48px', borderTop: `1px solid ${client.colors.border}` }} 
+      >
         <p style={{ color: client.colors.accent, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Our Location & Hours</p>
         <h2 style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-1px', marginBottom: '24px' }}>We bring the shop to your driveway.</h2>
-        <p style={{ color: client.colors.text, fontSize: '1.1rem', lineHeight: 1.8, marginBottom: '16px' }}>
+        <p style={{ fontSize: '1.1rem', marginBottom: '16px' }}>
           📍 <strong>Location:</strong> {client.location}
         </p>
         <p style={{ color: client.colors.muted, fontSize: '1rem', lineHeight: 1.8 }}>
