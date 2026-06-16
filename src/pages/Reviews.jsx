@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
 import { client } from '../clientData'; // Adjust path if necessary
+import BorderGlow from '../components/BorderGlow'; 
+import { useScrollReveal } from '../components/useScrollReveal'; 
 
 function Reviews() {
+  // Set up the scroll container observer hook
+  const containerRef = useScrollReveal();
+
   return (
     <div style={{ fontFamily: 'Inter, sans-serif', background: client.colors.bg, color: client.colors.text, minHeight: '100vh' }}>
       
@@ -19,7 +24,7 @@ function Reviews() {
       <section style={{ padding: '80px 48px', maxWidth: '1000px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
           <p style={{ color: client.colors.accent, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Testimonials</p>
-          <h1 style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-1.5px', marginBottom: '16px' }}>What Our Clients Say</h1>
+          <h1 style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-1px', marginBottom: '16px' }}>What Our Clients Say</h1>
           
           {/* Main Stat Summary badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', background: client.colors.surface, padding: '12px 24px', borderRadius: '30px', border: `1px solid ${client.colors.border}` }}>
@@ -28,25 +33,44 @@ function Reviews() {
           </div>
         </div>
 
-        {/* Dynamic Reviews Grid */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        {/* Dynamic Reviews Grid with Scroll Reveal Class */}
+        <div 
+          ref={containerRef}
+          className="reveal-hidden"
+          style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
+        >
           {client.reviews.map((rev, index) => (
-            <div key={index} style={{ background: client.colors.surface, border: `1px solid ${client.colors.border}`, borderRadius: '16px', padding: '32px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <div>
-                  <h3 style={{ margin: '0 0 4px 0', fontWeight: 700, fontSize: '1.1rem' }}>{rev.name}</h3>
-                  <span style={{ color: client.colors.accent, fontSize: '0.9rem', letterSpacing: '2px' }}>
-                    {"★".repeat(rev.rating)}
-                  </span>
+            /* Wrapped each card element item in the optimized BorderGlow parameters */
+            <BorderGlow
+              key={index}
+              animated={false} 
+              backgroundColor={client.colors.surface}
+              borderRadius={16}
+              glowRadius={15}
+              glowIntensity={1}
+              coneSpread={20}
+              edgeSensitivity={0.1}
+              fillOpacity={0.4}
+              glowColor="45 20 50"
+              colors={[client.colors.accent, client.colors.border]}
+            >
+              <div style={{ padding: '32px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <div>
+                    <h3 style={{ margin: '0 0 4px 0', fontWeight: 700, fontSize: '1.1rem' }}>{rev.name}</h3>
+                    <span style={{ color: client.colors.accent, fontSize: '0.9rem', letterSpacing: '2px' }}>
+                      {"★".repeat(rev.rating)}
+                    </span>
+                  </div>
+                  {rev.date && (
+                    <span style={{ color: client.colors.muted, fontSize: '0.85rem' }}>{rev.date}</span>
+                  )}
                 </div>
-                {rev.date && (
-                  <span style={{ color: client.colors.muted, fontSize: '0.85rem' }}>{rev.date}</span>
-                )}
+                <p style={{ color: client.colors.text, fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
+                  "{rev.text}"
+                </p>
               </div>
-              <p style={{ color: client.colors.text, fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
-                "{rev.text}"
-              </p>
-            </div>
+            </BorderGlow>
           ))}
         </div>
       </section>
