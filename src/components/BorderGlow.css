@@ -1,0 +1,76 @@
+.border-glow-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  background: var(--card-bg);
+  padding: 1px;
+  overflow: visible;
+  isolation: isolate;
+  --edge-proximity: 0;
+  --cursor-angle: 0deg;
+}
+
+/* Underlying background soft glow glow - only visible when close to the edge */
+.border-glow-card::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--glow-padding) * -1);
+  border-radius: calc(var(--border-radius) + var(--glow-padding));
+  background: 
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three),
+    var(--gradient-four),
+    var(--gradient-five),
+    var(--gradient-six),
+    var(--gradient-seven),
+    var(--gradient-base);
+  background-blend-mode: screen;
+  /* Fixed calculation: Drops to 0 opacity instantly when not interacting */
+  opacity: calc((var(--edge-proximity) / 100) * var(--fill-opacity));
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Sharp Glowing Outer Rim */
+.edge-light {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius);
+  pointer-events: none;
+  z-index: -1;
+  padding: 0.75px; /* Upgraded: Made it razor thin and professional */
+  background: conic-gradient(
+    from var(--cursor-angle) at 50% 50%,
+    transparent 0deg,
+    var(--glow-color) calc(360deg - var(--cone-spread) * 1deg),
+    var(--glow-color-60) 360deg
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: calc(var(--edge-proximity) / 100);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fixes the intro animation locking open */
+.border-glow-card.sweep-active .edge-light,
+.border-glow-card.sweep-active::before {
+  transition: opacity 0.5s ease;
+}
+
+.border-glow-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--border-radius) - 1px);
+  background: var(--card-bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { client } from '../clientData'; 
+import BorderGlow from '../components/BorderGlow'; 
 
 function Home() {
   return (
@@ -21,7 +22,7 @@ function Home() {
         </div>
       </nav>
 
-      {/* Hero Section with Side Image Layout */}
+      {/* Hero Section */}
       <section style={{ 
         display: 'grid', 
         gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
@@ -51,7 +52,7 @@ function Home() {
           </div>
         </div>
 
-        {/* Dynamic Cool Hero Image Frame */}
+        {/* Hero Image Frame */}
         <div style={{ 
           position: 'relative', 
           height: '450px', 
@@ -73,56 +74,60 @@ function Home() {
         </div>
       </section>
 
-      {/* Services & Pricing Section */}
+      {/* Services & Pricing Section with BorderGlow */}
       <section id="services" style={{ padding: '100px 48px', borderTop: `1px solid ${client.colors.border}` }}>
         <p style={{ color: client.colors.accent, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Menu & Rates</p>
         <h2 style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-1px', marginBottom: '64px' }}>Our Services & Pricing</h2>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
           {client.services.map((service) => (
-            <div 
-              key={service.name} 
-              style={{ 
-                background: client.colors.surface, 
-                border: service.popular ? `2px solid ${client.colors.accent}` : `1px solid ${client.colors.border}`, 
-                borderRadius: '12px', 
+        <BorderGlow
+           key={service.name}
+           // Turn off the intro animation sweep by forcing it to false, or only leave it on for popular
+            animated={false} 
+            backgroundColor={client.colors.surface}
+           borderRadius={5}
+           glowRadius={15}               /* Reduced size so it doesn't bleed out too far */
+           glowIntensity={1}           /* Dropped intensity for a stealthier look */
+           coneSpread={20}               /* Tightened the light beam cone angle */
+            edgeSensitivity={0.1}          /* Lower numbers mean it only lights up when directly hovering */
+            fillOpacity={0.4}             /* Dimmed the backplate glow */
+          glowColor="45 20 50"          /* Adjusted dark gold/bronze HSL anchor */
+          colors={[client.colors.accent, client.colors.border]}
+>              <div style={{ 
                 padding: '32px', 
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}
-            >
-              {service.popular && (
-                <span style={{ position: 'absolute', top: '-12px', right: '20px', background: client.colors.accent, color: client.colors.bg, fontSize: '0.75rem', fontWeight: 700, padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase' }}>
-                  Popular Choice
-                </span>
-              )}
-              
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
-                  <h3 style={{ fontWeight: 700, fontSize: '1.2rem', marginRight: '8px' }}>{service.name}</h3>
-                  <span style={{ color: client.colors.accent, fontWeight: 700, fontSize: '1.4rem' }}>{service.price}</span>
-                </div>
-                <p style={{ color: client.colors.muted, fontSize: '0.8rem', marginBottom: '20px', fontWeight: 500 }}>⏱ Duration: {service.duration}</p>
-                <p style={{ color: client.colors.muted, fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '24px' }}>{service.desc}</p>
-              </div>
-
-              <Link to="/contact" style={{ 
-                background: service.popular ? client.colors.accent : 'transparent', 
-                color: service.popular ? client.colors.bg : client.colors.text, 
-                border: `1px solid ${client.colors.accent}`,
-                textAlign: 'center',
-                padding: '10px 0', 
-                borderRadius: '6px', 
-                textDecoration: 'none', 
-                fontWeight: 600, 
-                fontSize: '0.9rem',
-                marginTop: 'auto'
+                justifyContent: 'space-between',
+                height: '100%'
               }}>
-                Book This Service
-              </Link>
-            </div>
+                
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
+                    <h3 style={{ fontWeight: 700, fontSize: '1.2rem', marginRight: '8px' }}>{service.name}</h3>
+                    <span style={{ color: client.colors.accent, fontWeight: 700, fontSize: '1.4rem' }}>{service.price}</span>
+                  </div>
+                  <p style={{ color: client.colors.muted, fontSize: '0.8rem', marginBottom: '20px', fontWeight: 500 }}>⏱ Duration: {service.duration}</p>
+                  <p style={{ color: client.colors.muted, fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '24px' }}>{service.desc}</p>
+                </div>
+
+                <Link to="/contact" style={{ 
+                  background: service.popular ? client.colors.accent : 'transparent', 
+                  color: service.popular ? client.colors.bg : client.colors.text, 
+                  border: `1px solid ${client.colors.accent}`,
+                  textAlign: 'center',
+                  padding: '10px 0', 
+                  borderRadius: '6px', 
+                  textDecoration: 'none', 
+                  fontWeight: 600, 
+                  fontSize: '0.9rem',
+                  marginTop: 'auto'
+                }}>
+                  Book This Service
+                </Link>
+              </div>
+            </BorderGlow>
           ))}
         </div>
       </section>
